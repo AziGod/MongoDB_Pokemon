@@ -1,0 +1,66 @@
+db.roman.insertMany([{titre: "fortune de france", auteur: "Robert Merle", annee:1977},{titre: "en nos vertes années", auteur: "Robert Merle", annee: 1979},{titre: "Paris ma bonne ville", auteur: "Robert Merle", annee: 1980},{titre: "l’appel de la forêt", auteur: "Jack London", annee: 1903},{titre: "la pyramide assassinée", auteur: "Christian Jacq", annee: 1993}])
+
+db.roman.find()
+
+db.createCollection('comic')
+
+db.comic.insertMany([{titre: "the amazing-spiderman", auteur: "stan lee", annee: 1963},{titre: "Harleen, auteur Stjepan Sejic" , annee: 2019},{titre: "the incredible Hulk", auteur: "bruce Banner", annee: 1962},{titre: "captain america", auteur: "Joe Simon", annee: 1941}])
+
+db.show collection
+
+db.comic.find({annee: 1962})
+
+db.roman.find({auteur: "Robert Merle"})
+
+db.roman.find({auteur: "Robert Merle"},{"titre":true})
+
+#Etape 3
+
+docker exec -it alecourt_mongodb bash
+mongosh
+
+use pokemon
+db.createCollection('pokemons')
+
+mongoimport -d pokemon -c pokemons --jsonArray < /data/db/pokemon.json
+
+
+#1)
+
+db.pokemons.find({name:"Mew"},{id: true})
+
+#2)
+
+db.pokemons.find({},{name: 1,_id: 0})
+db.pokemons.find({},{name: 1,_id: 0}).count()
+
+#3)
+db.pokemons.find({type:"Fire"},{name: 1,_id: 0})
+
+#4) $in = OU
+db.pokemons.find({type: {$in: ["Poison","Grass"]}},{name: 1,_id: 0}).count()
+
+#5) $all = ALL
+db.pokemons.find({type: {$all: ["Poison","Grass"]}},{name: 1,_id: 0}).count()
+
+#6)
+db.pokemons.find({name:"Doduo"},{type: 1,_id: 0})
+
+#7)
+db.pokemons.find({"misc.sex.male":"87.5"},{_id: 0,misc:1}).count()
+
+#8)
+db.pokemons.find({"damages.ice":"2"}).count()
+
+#9)
+db.pokemons.find({"damages.ice":"2","misc.sex.female":"12.5"}).count()
+
+#10)
+db.pokemons.find({$or: [{"stats.speed": "60"},{type: "Grass"}]}).count()
+
+#11)
+db.pokemons.find({"stats.speed":"60",type:"Grass"}).count()
+
+#12)
+db.pokemons.find({"misc.sex.female": {$gte: "60"}}).count()
+
