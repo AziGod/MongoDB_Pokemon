@@ -1,0 +1,9 @@
+version: '2'
+
+services:
+    mongodb:
+        container_name: alecourt_mongodb
+        image: "mongo"
+        volumes:
+            - ~/Projet/MongoDB_Pokemon/docker_mongo/mongo:/data/db
+       
